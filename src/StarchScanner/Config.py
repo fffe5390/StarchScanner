@@ -1,4 +1,5 @@
 #encoding: UTF8
+import os
 
 #生成默认配置类
 class Config(object):
@@ -14,4 +15,4 @@ class Config(object):
         self.HTTPTIMEOUT = 20
         
         #代理吃文件路径
-        self.PROXIESURI = "D:/proxies.txt"
+        self.PROXIESURI = os.path.dirname(__file__) + "\\" + "proxies.txt"
