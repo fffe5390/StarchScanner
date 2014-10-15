@@ -12,7 +12,7 @@ class Config(object):
         self.THREADINTERVAL = 1
         
         #http等待时间
-        self.HTTPTIMEOUT = 20
+        self.HTTPTIMEOUT = 10
         
-        #代理吃文件路径
-        self.PROXIESURI = os.path.dirname(__file__) + "/" + "proxies.txt"
+        #代理池文件路径
+        self.PROXIESPATH = os.path.dirname(__file__) + "/" + "proxies.txt"

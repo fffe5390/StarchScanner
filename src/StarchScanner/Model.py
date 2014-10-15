@@ -29,35 +29,42 @@ class HttpTask(Task):
     def _openurl(self):
         request = urllib2.Request(self.url)
         request.add_header('User-Agent', StarchScanner.userAgents.random())
-        #request.add_header('Accept-Encoding', 'gzip')
         
         if self.proxy:
             request.set_proxy(StarchScanner.proxies.random(), 'http')
             
         try:
             response = urllib2.urlopen(request, timeout = StarchScanner.config.HTTPTIMEOUT)
+            content = response.read()
             
         except urllib2.HTTPError, e:
+            print '————————————————————————————'
             print '发生HTTPError，此task失败'
             print 'url:',self.url
             print e
+            print '————————————————————————————'
             return
         except urllib2.URLError, e:
+            print '————————————————————————————'
             print '发生URLError，task已经重新加入队列'
             print 'url:',self.url
             print e
+            print '————————————————————————————'
             StarchScanner.scanner.addTask(self)
             return
         except Exception, e:
+            print '————————————————————————————'
             print '发生异常，task已经重新加入队列'
             print 'url:',self.url
             print e
+            print '————————————————————————————'
             StarchScanner.scanner.addTask(self)
             return
         
-        content = response.read()
-        #compresseddata = response.read()
-        #compressedstream = StringIO.StringIO(compresseddata)
-        #decompressddata = gzip.GzipFile(fileobj=compressedstream)
-        #content = decompressddata.read()
+        ConEncod = response.info().getheader('Content-Encoding')
+        if 'gzip' in (ConEncod if ConEncod else ''):
+            data = StringIO.StringIO(content)
+            gz = gzip.GzipFile(fileobj=data)
+            content = gz.read()
+            gz.close()
         self.func(response, content, response.getcode())

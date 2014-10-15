@@ -4,14 +4,17 @@ import urllib2
 import re
 import StarchScanner
 import StarchScanner.Model
-from _io import open
+import random
 
 scanner = StarchScanner.scanner
           
 scanner.start()
         
 def asdf(response, content, code):
-    print content
+    pattern = re.compile(r'<h4 class="uname">(.*?)</h4>')
+    results = pattern.finditer(content)
+    for res in results:
+        print response.geturl(),res.group(1)
 
-for x in range(1,10):
-    scanner.addTask(StarchScanner.Model.HttpTask('http://www.baidu.com/', asdf, True))
+for x in xrange(54999,56023):
+    scanner.addTask(StarchScanner.Model.HttpTask('http://space.bilibili.com/'+str(x), asdf, True))
