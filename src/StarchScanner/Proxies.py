@@ -12,7 +12,7 @@ class Proxies(object):
         return random.choice(self.proxies)
     
     def loadProxies(self):
-        f = open(StarchScanner.config.PROXIESURI, 'r')  
+        f = open(StarchScanner.config.PROXIESPATH, 'r')  
         for line in f:  
             self.proxies.append(line)
         f.close()

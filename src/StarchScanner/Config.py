@@ -15,7 +15,7 @@ class Config(object):
         self.HTTPTIMEOUT = 20
         
         #代理吃文件路径
-        self.PROXIESURI = os.path.dirname(__file__) + "/" + "proxies.txt"
+        self.PROXIESPATH = os.path.dirname(__file__) + "/" + "proxies.txt"
         
         #httptask重试次数
         self.HTTPTASKRETRYCOUNT = 10

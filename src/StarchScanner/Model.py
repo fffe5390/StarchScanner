@@ -14,8 +14,8 @@ class Task(object):
 
 
 
-#特化Task，封装了Task，用于http，func函数原型是func(response, content, statecode)，func由用户给出，用于处理接收到的数据
-#设计思路：将用户的func函数包装在一个网络访问的函数callback里，然后SimpleHttpTask就可以作为Task对待
+#特化Task，封装了Task，用于http，func函数原型是func(response, content)，func由用户给出，用于处理接收到的数据
+#设计思路：将用户的func函数包装在一个网络访问的函数callback里，然后HttpTask就可以作为Task对待
 class SimpleHttpTask(Task):
     def __init__(self, url, func, proxy=False):
         super(SimpleHttpTask, self).__init__(self._openurl, ())#因为_openurl的参数在本类可获取，所以不需要传进去
@@ -25,7 +25,8 @@ class SimpleHttpTask(Task):
         self.retrycount = StarchScanner.config.HTTPTASKRETRYCOUNT
 
 
-    #封装func，成为一个具有完整网络访问功并且和处理Scanner内部事务的函数，该函数会被赋值给self.callback，用于在线程中调用
+    #封装func，成为一个具有完整网络访问功并且和处理Scanner内部事务的函数，该函数会被赋值给callback，用于在线程中调用
+    #参数request为生成的urllib2.Request对象
     def _openurl(self):
         
         if self.retrycount <= 0:
@@ -41,6 +42,7 @@ class SimpleHttpTask(Task):
         
         if self.proxy:
             request.set_proxy(StarchScanner.proxies.random(), 'http')
+            request.add_header('Accept-Encoding', 'gzip')
             
         try:
             response = urllib2.urlopen(request, timeout = StarchScanner.config.HTTPTIMEOUT)

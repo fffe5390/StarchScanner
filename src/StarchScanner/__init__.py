@@ -1,4 +1,5 @@
 #encoding: UTF8
+import os
 import Scanner
 import Proxies
 import UserAgents
