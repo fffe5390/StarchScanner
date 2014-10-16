@@ -9,10 +9,13 @@ class Config(object):
         self.MAXTASKQUEUE = 1000
         
         #线程分发间隔时间，单位秒
-        self.THREADINTERVAL = 1
+        self.THREADINTERVAL = 0.05
         
         #http等待时间
-        self.HTTPTIMEOUT = 10
+        self.HTTPTIMEOUT = 20
         
-        #代理池文件路径
-        self.PROXIESPATH = os.path.dirname(__file__) + "/" + "proxies.txt"
+        #代理吃文件路径
+        self.PROXIESURI = os.path.dirname(__file__) + "/" + "proxies.txt"
+        
+        #httptask重试次数
+        self.HTTPTASKRETRYCOUNT = 10
