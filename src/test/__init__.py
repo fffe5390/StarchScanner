@@ -28,4 +28,5 @@ def asdf(response, content):
         mutex.release()
 
 for x in range(3354324916, 3354314916, -1):
-    scanner.addTask(StarchScanner.Model.SimpleHttpTask('http://tieba.baidu.com/p/'+str(x), asdf, True))
+    #由于proxies.txt内大部分代理失效，这里不启用代理
+    scanner.addTask(StarchScanner.Model.SimpleHttpTask('http://tieba.baidu.com/p/'+str(x), asdf, False))
